@@ -7,23 +7,42 @@
 \usepackage{lato-latex}
 % \usepackage{PTSerif,PTSans}
 % \renewcommand{\familydefault}{\sfdefault}
-\usepackage{inconsolata}
+\usepackage[scaled=1.1]{inconsolata}
 
 \usepackage{microtype}
-\usepackage{hyperref}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\hypersetup{colorlinks}
 
-\usepackage{siunitx}
-\sisetup{
-    mode=text,
-    group-separator={\,}
+\usepackage{listings}
+\lstset{
+    basicstyle={\ttfamily},
+    columns=fullflexible,
+    language=[LaTeX]TeX,
+    escapeinside={_}{_},
+    escapebegin={\rmfamily\textlangle\itshape},
+    escapeend={\upshape\textrangle},
+    gobble=4
 }
+\lstMakeShortInline[ % typeset sequences |like this| as code
+    escapeinside={_}{_},
+    escapebegin=\parambegin,
+    escapeend=\paramend
+]|
+\newcommand\parambegin{\rmfamily\textlangle\itshape}
+\newcommand\paramend{\upshape\textrangle}
+\newcommand\parameter[1]{{\parambegin#1\paramend}}
+\newcommand\code[1]{\texttt{#1}}
+\let\file\code
 
 \usepackage{todo-setup}
 \usepackage{lipsum}
 
 \raggedbottom
 
+\makeatletter
+\def\wikipedi@prefix{http://en.wikipedia.org/wiki/}
+\newcommand\wikipedia[2][\@empty]{\href{\wikipedi@prefix #2}{\ifx #1\@empty #2\else #1\fi}}
 
 
 \title{\LaTeX'ing with style}
@@ -53,11 +72,30 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \subsection{Within the paragraph} % (fold)
 \label{sub:paragraph}
 
+\paragraph{Do not abuse of fonts.}
+With fonts, less is more.
+\marginnote{%
+  A \wikipedia{font} means a single size, style and weight of a particular typeface.
+  Conversely, a \wikipedia{typeface} or font family is a set of fonts with stylistic unity.
+}
+\LaTeX{} makes it tempting to abuse of the many complete typefaces available, but emphasizing everything has the opposite effect: nothing really stands out anymore.
+
+Normal paragraph text only needs a roman font and matching italic for emphasis.
+Technical publications often use a sans-serif or monospaced font as well, for instance to distinguish program identifiers from homonymous domain terms.
+
+\paragraph{Coordinate typefaces.}
+Many document classes mix text typefaces that were not designed together.
+You should of course pick typefaces with compatible aesthetic temperaments, but also ensure that they coordinate well visually.
+For instance, many well-known publication templates use Times together with Helvetica, but while both have the same point size, they do not \emph{look} like it.
+\marginnote{\wikipedia{X-height} matching is quite sensitive; discrepancies of a few percent easily stand out to the attentive eye.}
+Fortunately, \file{helvet.sty} and a few other typeface packages can adjust the scale of the font; pick the value to match the x-heights: |\usepackage[scaled=0.82]{helvet}|.
+
 \begin{todoenv}
-    - fonts, emphasis
-    - source code, program elements
-    - links, colors
-    - language, babel
+    fonts, emphasis
+    source code, program elements
+    ligatures and spaces
+    links, colors
+    language, babel
 \end{todoenv}
 % (end)
 
@@ -65,9 +103,9 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:graphics}
 
 \begin{todoenv}
-    - graphicx
-    - spacing
-    - rules, booktabs
+    graphicx
+    spacing
+    rules, booktabs
 \end{todoenv}
 % (end)
 
@@ -75,9 +113,9 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:layout}
 
 \begin{todoenv}
-    - line length
-    - spacing
-    - proportions, your own document style
+    line length
+    spacing
+    proportions, your own document style
 \end{todoenv}
 % (end)
 % section typography (end)
@@ -91,8 +129,8 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:compiling}
 
 \begin{todoenv}
-    - latexmk + extensions
-    - synctex
+    latexmk + extensions
+    synctex
 \end{todoenv}
 % (end)
 
@@ -100,9 +138,9 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:bibliography}
 
 \begin{todoenv}
-    - key format
-    - keywords
-    - url, doi…
+    key format
+    keywords
+    url, doi…
 \end{todoenv}
 % (end)
 
@@ -110,9 +148,9 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:vcs}
 
 \begin{todoenv}
-    - bbl
-    - one sentence per line
-    - git primer ?
+    bbl
+    one sentence per line
+    git primer ?
 \end{todoenv}
 % (end)
 
@@ -120,8 +158,8 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:maintenance}
 
 \begin{todoenv}
-    - todo notes
-    - document templates
+    todo notes
+    document templates
 \end{todoenv}
 % (end)
 % section tools (end)
@@ -135,11 +173,11 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:semantics}
 
 \begin{todoenv}
-    - encoding
-    - references
-    - define environments for examples, code etc
-    - product / team names, recurrent things
-    - managing the final adjustments
+    encoding
+    references
+    define environments for examples, code etc
+    product / team names, recurrent things
+    managing the final adjustments
 \end{todoenv}
 % (end)
 
@@ -147,11 +185,11 @@ Even so, there is the problem of finding just \emph{how} to implement some detai
 \label{sub:format}
 
 \begin{todoenv}
-    - presenting main text code
-    - one sentence per line
-    - macros: indentation, commenting whitespace
-    - preamble stuff
-    - big documents
+    presenting main text code
+    one sentence per line
+    macros: indentation, commenting whitespace
+    preamble stuff
+    big documents
 \end{todoenv}
 % (end)
 % section code (end)
