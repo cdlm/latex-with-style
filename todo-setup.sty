@@ -1,0 +1,16 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{todo-setup}[%
+    2011/03/13 v11.03
+    Customized todo notes]
+\RequirePackage{todo}
+\RequirePackage{graphicx}
+
+\renewcommand*\@tododisplay[1]{\marginnote{\todoformat #1}}
+\renewcommand\todoformat{\normalsize\ttfamily\color{orange}}
+\renewcommand\todoenvformat{%
+    \parindent 0pt
+    \par
+    \obeylines\todoformat}
+\let\todomark\relax
+\let\todoopen\relax
+\let\todoclose\relax

@@ -1,0 +1,168 @@
+\documentclass[a4paper,twoside,nofonts]{tufte-handout}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[default]{lato}
+\usepackage{lato-latex}
+% \usepackage{PTSerif,PTSans}
+% \renewcommand{\familydefault}{\sfdefault}
+\usepackage{inconsolata}
+
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{graphicx}
+
+\usepackage{siunitx}
+\sisetup{
+    mode=text,
+    group-separator={\,}
+}
+
+\usepackage{todo-setup}
+\usepackage{lipsum}
+
+\raggedbottom
+
+
+
+\title{\LaTeX'ing with style}
+\author{Damien Pollet}
+\date{}
+
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+    This document regroups a few pieces of advice to help \LaTeX{} users prepare documents with better typography, streamline their writing workflow, and write maintainable \LaTeX{} code.
+\end{abstract}
+
+
+
+\noindent
+    \LaTeX{} is well-known for the quality of the documents it produces, but even if the defaults are sensible, authors still have to be familiar with good typography practices to achieve really nice results.
+Even so, there is the problem of finding just \emph{how} to implement some details properly, without getting swamped in crazy syntax or spending too many hours and neurons debugging obscure macros. \Todo{maybe more here}
+
+
+
+\section{Pleasant typography} % (fold)
+\label{sec:typography}
+
+\subsection{Within the paragraph} % (fold)
+\label{sub:paragraph}
+
+\begin{todoenv}
+    - fonts, emphasis
+    - source code, program elements
+    - links, colors
+    - language, babel
+\end{todoenv}
+% (end)
+
+\subsection{Graphics, tables, \& other floats} % (fold)
+\label{sub:graphics}
+
+\begin{todoenv}
+    - graphicx
+    - spacing
+    - rules, booktabs
+\end{todoenv}
+% (end)
+
+\subsection{Document layout} % (fold)
+\label{sub:layout}
+
+\begin{todoenv}
+    - line length
+    - spacing
+    - proportions, your own document style
+\end{todoenv}
+% (end)
+% section typography (end)
+
+
+
+\section{Efficient tools} % (fold)
+\label{sec:tools}
+
+\subsection{Compiling \& previewing} % (fold)
+\label{sub:compiling}
+
+\begin{todoenv}
+    - latexmk + extensions
+    - synctex
+\end{todoenv}
+% (end)
+
+\subsection{Bibliography} % (fold)
+\label{sub:bibliography}
+
+\begin{todoenv}
+    - key format
+    - keywords
+    - url, doi…
+\end{todoenv}
+% (end)
+
+\subsection{Version control} % (fold)
+\label{sub:vcs}
+
+\begin{todoenv}
+    - bbl
+    - one sentence per line
+    - git primer ?
+\end{todoenv}
+% (end)
+
+\subsection{Maintenance} % (fold)
+\label{sub:maintenance}
+
+\begin{todoenv}
+    - todo notes
+    - document templates
+\end{todoenv}
+% (end)
+% section tools (end)
+
+
+
+\section{Nice code} % (fold)
+\label{sec:code}
+
+\subsection{Semantics \& form} % (fold)
+\label{sub:semantics}
+
+\begin{todoenv}
+    - encoding
+    - references
+    - define environments for examples, code etc
+    - product / team names, recurrent things
+    - managing the final adjustments
+\end{todoenv}
+% (end)
+
+\subsection{Organizing \& presenting \LaTeX{} code} % (fold)
+\label{sub:format}
+
+\begin{todoenv}
+    - presenting main text code
+    - one sentence per line
+    - macros: indentation, commenting whitespace
+    - preamble stuff
+    - big documents
+\end{todoenv}
+% (end)
+% section code (end)
+
+
+
+\bibliographystyle{plainnat}
+\nocite{*}
+\bibliography{local}
+
+\clearpage\todos
+
+\end{document}
+

@@ -1,0 +1,50 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{lato-latex}[%
+    2011/03/13 v11.03
+    (La)TeX logos in Lato]
+\RequirePackage{lato}
+\RequirePackage{hyperref} % for \texorpdfstring
+% \RequirePackage{microtype} % for \textls ?
+
+% inspired from the original definitions in latex.ltx
+% and modified ones in package ArsClassica
+
+% %%% From File: ltlogos.dtx
+% \def\TeX{T\kern-.1667em\lower.5ex\hbox{E}\kern-.125emX\@}
+% \DeclareRobustCommand{\LaTeX}{L\kern-.36em%
+%         {\sbox\z@ T%
+%          \vbox to\ht\z@{\hbox{\check@mathfonts
+%                               \fontsize\sf@size\z@
+%                               \math@fontsfalse\selectfont
+%                               A}%
+%                         \vss}%
+%         }%
+%         \kern-.15em%
+%         \TeX}
+% \DeclareRobustCommand{\LaTeXe}{\mbox{\m@th
+%   \if b\expandafter\@car\f@series\@nil\boldmath\fi
+%   \LaTeX\kern.15em2$_{\textstyle\varepsilon}$}}
+
+\def\@fla@TeX{T\kern-.1667em\lower.37ex\hbox{E}\kern-.1emX\@}
+
+\def\@fla@LaTeX{%
+    L\kern-.25em%
+    {\sbox\z@ T%
+         \vbox to\ht\z@{\hbox{%
+                \check@mathfonts
+                \fontsize\sf@size\z@
+                \math@fontsfalse\selectfont
+                A}%
+            \vss}}%
+    \kern-.1em%
+    \TeX}
+
+\DeclareRobustCommand\LaTeX{%
+    \texorpdfstring
+        {\textls[1]{\csname @\f@family @LaTeX\endcsname}}
+        {LaTeX}}
+        
+\DeclareRobustCommand\TeX{%
+    \texorpdfstring
+        {\textls[1]{\csname @\f@family @TeX\endcsname}}
+        {TeX}}
