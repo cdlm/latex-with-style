@@ -9,10 +9,11 @@
 % \renewcommand{\familydefault}{\sfdefault}
 \usepackage[scaled=1.1]{inconsolata}
 
-\usepackage{microtype}
+\usepackage{multicol}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \hypersetup{colorlinks}
+\usepackage{microtype}
 
 \usepackage{csquotes}
 
@@ -59,38 +60,39 @@
 \maketitle
 
 \begin{abstract}
-  This document regroups a few pieces of advice to help \LaTeX{} users prepare documents with better typography, streamline their writing workflow, and write maintainable \LaTeX{} code.
+  A few pieces of advice for \LaTeX{} users, to help them prepare documents with better typography, streamline their writing workflow, and write maintainable \LaTeX{} code.
 \end{abstract}
+\begin{todoenv}
+  \noindent Similar things:
+  \url{http://www.charlietanksley.net/philtex/essential-packages/}
+\end{todoenv}
 \vfill
 
+\begin{fullwidth}
+  \begin{multicols}{2}
 
-\noindent
-\LaTeX{} is well-known for the quality of the documents it produces, but to achieve really nice results, authors still have to be familiar with good typography practices.
-Even so, there is the problem of finding just \emph{how} to implement some details properly, without getting swamped in crazy syntax, or spending too many hours looking for the providential package and neurons debugging obscure macros.
+    \noindent
+    \LaTeX{} is well-known for the quality of the documents it produces, but to achieve really nice results, authors still have to be familiar with good typography practices.
+    Even so, there is the problem of finding just \emph{how} to implement some details properly, without getting swamped in crazy syntax, or spending too many hours looking for the providential package and neurons debugging obscure macros.
 
-I have tried to gather general advice for knowledgeable \LaTeX{} users who want to achieve better typographic results or more maintenable source code, but who do not have the time to go through the litterature and the piles of documentation on the path to that goal.
-So this is neither technical documentation, nor a typography course ---I left that in the aforementioned piles--- but rather a set of directions of where the nice things are.
-Be aware, then, that what follows is \emph{my own} travel map, and that I traced it following my own influences, preferences, and intuitions; it's not absolute, and certainly not exhaustive.
-Rules are meant to be broken; make your own path!
+    I have tried to gather general advice for knowledgeable \LaTeX{} users who want to achieve better typographic results or more maintenable source code, but who do not have the time to go through the litterature and the piles of documentation on the path to that goal.
+    So this is neither technical documentation, nor a typography course ---I left that in the aforementioned piles--- but rather a set of directions of where the nice things are.
+    Be aware, then, that what follows is \emph{my own} travel map, and that I traced it following my own influences, preferences, and intuitions; it's not absolute, and certainly not exhaustive.
+    Rules are meant to be broken; follow your own path!
+  \end{multicols}
+  \bigskip
 
-\section*{Contents}
+  \begin{multicols}{3}
+    \noindent
+    First, \emph{\nameref{sec:typography}} is about the readers: typography, graphics, layout and how to convey your message efficiently.
 
-This is divided in three parts.
-\Todo{\noindent
-  Similar things:
-  \url{http://www.charlietanksley.net/philtex/essential-packages/}
-}
+    \columnbreak\noindent
+    \emph{\nameref{sec:tools}} is about you, the author, and how to setup your environment to make the writing process as painless as possible.
 
-\emph{\nameref{sec:typography}} is about appearances: typography, graphics, layout and how to prepare a document with the reader's experience in mind.
-
-\emph{\nameref{sec:tools}} is about you, the author, and how to make the writing process as painless as possible.
-
-Finally, \emph{\nameref{sec:code}} is about your co-authors, among which we need to count future-you: how to make the \LaTeX{} code itself readable and easy to work with.
-
-
-
-\begin{todoenv}
-\end{todoenv}
+    \columnbreak\noindent
+    Finally, \emph{\nameref{sec:code}} is about your co-authors as well as future-you: how to make the \LaTeX{} code itself readable and easy to work with.
+  \end{multicols}
+\end{fullwidth}
 
 
 
