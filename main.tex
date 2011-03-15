@@ -126,11 +126,27 @@ For instance, many well-known publication templates use Times together with Helv
 \marginnote{\wikipedia{X-height} matching is quite sensitive; discrepancies of a few percent easily stand out to the attentive eye.}
 Fortunately, \package{helvet} and a few other typeface packages can adjust the scale of the font; pick the value to match the x-heights: |\usepackage[scaled=0.82]{helvet}|.
 
+\paragraph{Meaningful spacing.}
+Whitespace might not use any ink, but it does convey meaning.
+\Todo{small fig: vertical/horizontal grids}
+Depending on how it's used, whitespace can either separate or attach elements; all depends on the quantity of space between two elements, relative to other nearby spaces.
+
+Take the time to use non-breaking spaces where necessary, and to adjust its size accordingly.
+For instance, the non-breaking space in |Section~\ref{}| is absolutely necessary to prevent the number from appearing alone at the beginning of the next line.
+For the abbreviated versions, I like to switch to a half-width space, because they read more like an identifier than two words, for instance:
+\begin{center}
+  \begin{tabular}{ r c l }
+    |Sect.\,\ref{}| & \multirowSeparatorRight{2}
+    & Sect.\,3.14
+    \\
+    |p.\,\pageref{}| &
+    & p.\,42
+  \end{tabular}
+\end{center}
+
 \paragraph{Small caps acronyms.}
 Acronyms in full caps are fine, but can be disturbing if they appear too frequently.
 One way to alleviate that is setting them like proper nouns, but that is only possible if the acronym is pronounced like a word, rather than spelled; periods are superfluous in either case.
-
-
 Otherwise, small caps are the solution.
 \marginnote{%
   Proper small caps are \emph{not} scaled-down upper-case letters.
