@@ -28,7 +28,7 @@
 }
 \usepackage{microtype}
 
-\usepackage{csquotes}
+\usepackage[french=guillemets,autostyle=true]{csquotes}
 \usepackage{soul,soulutf8}
 \usepackage{multirow}
 \newcommand\multirowSeparatorRight[2][\quad]{%
@@ -45,8 +45,8 @@
   gobble=2
 }
 \lstMakeShortInline| % typeset sequences |like this| as code
-\lstnewenvironment{latexcode}{%
-  \lstset{basicstyle=\small\ttfamily}%
+\lstnewenvironment{latexcode}[1][]{%
+  \lstset{basicstyle=\small\ttfamily,#1}%
 }{}
 
 \newcommand\parambegin{\normalfont{\rmfamily\textlangle}\itshape}
@@ -63,6 +63,13 @@
   \normalfont}
 \newcommand\result[1]{{\resultstyle #1}}
 \newenvironment{longresult}{\resultstyle\small}{\par}
+
+\newenvironment{comparing}{%
+  \begin{multicols}{2}%
+  \small
+  \parindent 0pt%
+  \def\comparewith{\par\columnbreak}%
+}{\end{multicols}}
 
 \usepackage{todo-setup}
 \usepackage{lipsum}
@@ -143,10 +150,14 @@ With fonts, less is more.
 Normal paragraph text only needs a roman font and matching italic for emphasis.
 It's often said that foreign locutions like \enquote{i.e.} or \enquote{et al.} should be emphasized but I think it's useless because they are so common in scientific English.
 Technical publications often use a sans-serif or monospaced font as well, to distinguish formal identifiers from homonymous domain terms.
+Italic is the preferred way to emphasize text, because it's designed to make text stand out in the reading flow, but not in the page.
+Conversely, bold text stands out visually%
+\sidenote{%
+  As for underlining, it is just a workaround to replace proper italics where they are not possible, like typewriters or handwriting; you can safely forget that it even exists.}
+by disturbing the typographic gray, so it should only be used when that is the intent ---dictionary entries, for instance.
 
-For emphasis, use the |\emph{}| command.
-Italic is the preferred way to emphasize text, because it's designed to make text stand out in the reading flow, but not in the page; conversely, bold text stands out visually by disturbing the typographic gray, so it should only be used when that is the intent ---dictionary entries, for instance.
-As for underlining, it is just a workaround to replace proper italics where they are not possible, like typewriters or handwriting; you can safely forget that it even exists.
+For emphasis, always prefer the semantically correct |\emph{}| to the font-changing commands like |\textit{}|, which are about explicit typography.
+If you \emph{really} need bold emphasis, you should define a semantic macro for it like |\strong{}|.
 
 \paragraph{Meaningful spacing.}
 Whitespace might not use any ink, but it does convey meaning.
@@ -156,26 +167,31 @@ Depending on how it's used, whitespace can either separate or attach elements; a
 Take the time to use non-breaking spaces where necessary, and to adjust its size accordingly.
 For instance, the non-breaking space in |Section~\ref{}| is absolutely necessary to prevent the number from appearing alone at the beginning of the next line.
 For the abbreviated versions, I like to switch to a half-width space, because they read more like an identifier than two words, for instance:
-\begin{center}\small
-  \begin{tabular}{ r c l }
-    |Sect.\,\ref{}| & \multirowSeparatorRight{2}
-    & \result{Sect.\,3.14}
-    \\
-    |p.\,\pageref{}| &
-    & \result{p.\,42}
-  \end{tabular}
-\end{center}
+\begin{comparing}\obeylines
+  |Sect.\,\ref{foo},|
+  |at p.\,\pageref{foo}|
+  \comparewith
+  \result{Sect.\,3.14,}
+  \result{at p.\,42}
+\end{comparing}
 
 \paragraph{Language conventions.}
 I always load \package{babel}, even in purely english documents; at the minimum, this ensures that words are correctly hyphenated.
 In non-English or multilingual documents, you should load all necessary languages, the last one being the main one, for instance |\usepackage[french,english]{babel}|.
 Then, switch languages using the |otherlanguage| environment, or even inline:
-\begin{latexcode}
-  \foreignlanguage{french}{Bonjour} means \emph{hello}.
-\end{latexcode}
-
+\begin{comparing}
+  \begin{latexcode}[gobble=4]
+    \foreignlanguage{french}{%
+      \enquote{Bonjour}}
+    means \enquote{hello}.
+  \end{latexcode}
+  \comparewith
+  \begin{longresult}
+    \foreignlanguage{french}{\enquote{Bonjour}} means \enquote{hello}.
+  \end{longresult}
+\end{comparing}
 Besides hyphenation, the other major feature of \package{babel} is that it enforces language-specific typographic conventions, like spacing around punctuation signs.
-If you have lots of quotations, rather than using |``explicit quotes''|, load \package{csquotes} and use |\enquote{automatic quotes}|.
+To fully benefit of this if you have lots of quotations, rather than using |``explicit quotes''|, load \package{csquotes} and use |\enquote{automatic quotes}|.
 
 \paragraph{Small caps acronyms.}
 Acronyms in full caps are fine, but can be disturbing if they appear too frequently.
@@ -186,16 +202,15 @@ Otherwise, small caps are the solution.
   They have to be designed to match the line weight and general proportions of normal letters.}
 If your text font has proper small caps, they will make acronyms less obtrusive; \package{soul} provides the |\caps{}| command, which will even slightly letterspace its argument, for aesthetic purposes.
 Note that in the code, you should write the acronym in lower case; |\caps| will conserve upper-case letters, which can come handy if you need to begin a sentence by an acronym.
-\begin{multicols}{2}%
-  \selectlanguage{french}%
-  \begin{longresult}\noindent
+\begin{comparing}\selectlanguage{french}%
+  \begin{longresult}
     La notation UML est née de la fusion de OMT, Booch et OOSE.
   \end{longresult}
-  \columnbreak
-  \begin{longresult}\noindent
+  \comparewith
+  \begin{longresult}
     La notation \caps{uml} est née de la fusion de \caps{omt}, Booch et \caps{oose}.
   \end{longresult}
-\end{multicols}
+\end{comparing}
 
 \paragraph{Coordinate typefaces.}
 Many document classes mix text typefaces that were not designed together.
