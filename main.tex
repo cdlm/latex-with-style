@@ -1,6 +1,6 @@
 \documentclass[a4paper,twoside,nofonts]{tufte-handout}
 
-\usepackage[english]{babel}
+\usepackage[french,english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
@@ -13,6 +13,7 @@
 \usepackage{ccicons}
 
 \usepackage{multicol}
+\setlength\columnsep{1.5em}
 \usepackage{graphicx}
 \usepackage{hyperref}
 \definecolor{internallinkcolor}{named}{violet}
@@ -28,6 +29,7 @@
 \usepackage{microtype}
 
 \usepackage{csquotes}
+\usepackage{soul,soulutf8}
 \usepackage{multirow}
 \newcommand\multirowSeparatorRight[2][\quad]{%
   \multirow{#2}*{\color{gray}$#1\blacktriangleright #1$}}
@@ -43,13 +45,24 @@
   gobble=2
 }
 \lstMakeShortInline| % typeset sequences |like this| as code
+\lstnewenvironment{latexcode}{%
+  \lstset{basicstyle=\small\ttfamily}%
+}{}
 
 \newcommand\parambegin{\normalfont{\rmfamily\textlangle}\itshape}
 \newcommand\paramend{\normalfont{\rmfamily\textrangle}}
 \newcommand\parameter[1]{{\parambegin#1\paramend}}
 \newcommand\code[1]{\texttt{#1}}
 \let\file\code
-\newcommand\package[1]{\file{#1.sty}} % and link to CTAN
+
+\def\resultstyle{%
+  \def\rmdefault{cmr}%
+  \def\ttdefault{cmtt}%
+  \def\sfdefault{cmss}%
+  \let\familydefault\rmdefault
+  \normalfont}
+\newcommand\result[1]{{\resultstyle #1}}
+\newenvironment{longresult}{\resultstyle\small}{\par}
 
 \usepackage{todo-setup}
 \usepackage{lipsum}
@@ -59,7 +72,12 @@
 
 \makeatletter
 \def\wikipedi@prefix{http://en.wikipedia.org/wiki/}
-\newcommand\wikipedia[2][\@empty]{\href{\wikipedi@prefix #2}{\ifx #1\@empty #2\else #1\fi}}
+\def\ctan@prefix{http://ctan.tug.org/pkg/}
+\newcommand\wikipedia[2][\@empty]{%
+  \href{\wikipedi@prefix #2}{\ifx #1\@empty #2\else #1\fi}}
+\newcommand\package[2][\@empty]{%
+  \href{\ctan@prefix #2}{\file{\ifx #1\@empty #2.sty\else #1\fi}}}
+\makeatother
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,13 +156,13 @@ Depending on how it's used, whitespace can either separate or attach elements; a
 Take the time to use non-breaking spaces where necessary, and to adjust its size accordingly.
 For instance, the non-breaking space in |Section~\ref{}| is absolutely necessary to prevent the number from appearing alone at the beginning of the next line.
 For the abbreviated versions, I like to switch to a half-width space, because they read more like an identifier than two words, for instance:
-\begin{center}
+\begin{center}\small
   \begin{tabular}{ r c l }
     |Sect.\,\ref{}| & \multirowSeparatorRight{2}
-    & Sect.\,3.14
+    & \result{Sect.\,3.14}
     \\
     |p.\,\pageref{}| &
-    & p.\,42
+    & \result{p.\,42}
   \end{tabular}
 \end{center}
 
@@ -152,9 +170,9 @@ For the abbreviated versions, I like to switch to a half-width space, because th
 I always load \package{babel}, even in purely english documents; at the minimum, this ensures that words are correctly hyphenated.
 In non-English or multilingual documents, you should load all necessary languages, the last one being the main one, for instance |\usepackage[french,english]{babel}|.
 Then, switch languages using the |otherlanguage| environment, or even inline:
-\begin{lstlisting}
+\begin{latexcode}
   \foreignlanguage{french}{Bonjour} means \emph{hello}.
-\end{lstlisting}
+\end{latexcode}
 
 Besides hyphenation, the other major feature of \package{babel} is that it enforces language-specific typographic conventions, like spacing around punctuation signs.
 If you have lots of quotations, rather than using |``explicit quotes''|, load \package{csquotes} and use |\enquote{automatic quotes}|.
@@ -166,15 +184,29 @@ Otherwise, small caps are the solution.
 \marginnote{%
   Proper small caps are \emph{not} scaled-down upper-case letters.
   They have to be designed to match the line weight and general proportions of normal letters.}
-If your text font has proper small caps, they will make acronyms less obtrusive; \package{soul} provides the |\caps{}| command, which will even slightly letterspace its argument, for aesthetic purposes. 
+If your text font has proper small caps, they will make acronyms less obtrusive; \package{soul} provides the |\caps{}| command, which will even slightly letterspace its argument, for aesthetic purposes.
 Note that in the code, you should write the acronym in lower case; |\caps| will conserve upper-case letters, which can come handy if you need to begin a sentence by an acronym.
+\begin{multicols}{2}%
+  \selectlanguage{french}%
+  \begin{longresult}\noindent
+    La notation UML est née de la fusion de OMT, Booch et OOSE.
+  \end{longresult}
+  \columnbreak
+  \begin{longresult}\noindent
+    La notation \caps{uml} est née de la fusion de \caps{omt}, Booch et \caps{oose}.
+  \end{longresult}
+\end{multicols}
 
 \paragraph{Coordinate typefaces.}
 Many document classes mix text typefaces that were not designed together.
 You should of course pick typefaces with compatible aesthetic temperaments, but also ensure that they coordinate well visually.
 For instance, many well-known publication templates use Times together with Helvetica, but while both have the same point size, they do not \emph{look} like it.
 \marginnote{\wikipedia{X-height} matching is quite sensitive; discrepancies of a few percent easily stand out to the attentive eye.}
-Fortunately, \package{helvet} and a few other typeface packages can adjust the scale of the font; pick the value to match the x-heights: |\usepackage[scaled=0.82]{helvet}|.
+Fortunately, \package{helvet} and a few other typeface packages can adjust the scale of the font; pick the value to match the x-heights:
+\begin{latexcode}
+  \usepackage[scaled=0.82]{helvet}
+\end{latexcode}
+
 
 \paragraph{Keep body text black.}
 To be readable, small text needs good contrast without texture noise.
@@ -184,7 +216,7 @@ For documents that will be printed, I would thus advise keeping all body text pu
 For documents intended to be read mainly on screen, you could adopt the |colorlinks| option of \package{hyperref}, which is less intrusive than the colored boxes, but I still think the default colors call for some tweaking\sidenote[][-\baselineskip]{%
   Compared to black, we want colors subtle enough to act like italics, indicating the presence of a link, without calling attention to it like bold would.}.
 Below is how I set it up in this document; have a look at the documentation for \package{xcolor} for the list of predefined colors.
-\begin{lstlisting}
+\begin{latexcode}
   \definecolor{internallinkcolor}{named}{violet}
   \definecolor{externallinkcolor}{named}{teal}
   \hypersetup{
@@ -194,7 +226,7 @@ Below is how I set it up in this document; have a look at the documentation for 
     linkcolor=internallinkcolor,
     citecolor=internallinkcolor,
   }
-\end{lstlisting}
+\end{latexcode}
 
 \begin{todoenv}
     fonts, emphasis
