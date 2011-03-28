@@ -53,7 +53,12 @@
 \newcommand\paramend{\normalfont{\rmfamily\textrangle}}
 \newcommand\parameter[1]{{\parambegin#1\paramend}}
 \newcommand\code[1]{\texttt{#1}}
+\newcommand\prompt{\texttt{\$}}
+\lstnewenvironment{commandcode}[1][]{%
+  \lstset{basicstyle=\small\ttfamily,language=bash,#1}%
+}{}
 \let\file\code
+\let\command\code
 
 \def\resultstyle{%
   \def\rmdefault{cmr}%
@@ -86,6 +91,8 @@
   \href{\ctan@prefix #2}{\file{\ifx #1\@empty #2.sty\else #1\fi}}}
 \makeatother
 
+% Might have only one occurence, but still useful...
+\newcommand{\thanh}{Hàn Thê\llap{\raise 0.4ex\hbox{\'{}}} Thành}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{\LaTeX'ing with style}
@@ -141,6 +148,7 @@
 \label{sec:paragraph}
 
 \paragraph{Do not abuse of fonts.}
+
 With fonts, less is more.
 \marginnote{%
   A \wikipedia{font} means a single size, style and weight of a particular typeface.
@@ -160,6 +168,7 @@ For emphasis, always prefer the semantically correct |\emph{}| to the font-chang
 If you \emph{really} need bold emphasis, you should define a semantic macro for it like |\strong{}|.
 
 \paragraph{Meaningful spacing.}
+
 Whitespace might not use any ink, but it does convey meaning.
 \Todo{small fig: vertical/horizontal grids}
 Depending on how it's used, whitespace can either separate or attach elements; all depends on the quantity of space between two elements, relative to other nearby spaces.
@@ -176,6 +185,7 @@ For the abbreviated versions, I like to switch to a half-width space, because th
 \end{comparing}
 
 \paragraph{Language conventions.}
+
 I always load \package{babel}, even in purely english documents; at the minimum, this ensures that words are correctly hyphenated.
 In non-English or multilingual documents, you should load all necessary languages, the last one being the main one, for instance |\usepackage[french,english]{babel}|.
 Then, switch languages using the |otherlanguage| environment, or even inline:
@@ -194,7 +204,8 @@ Besides hyphenation, the other major feature of \package{babel} is that it enfor
 To fully benefit of this if you have lots of quotations, rather than using |``explicit quotes''|, load \package{csquotes} and use |\enquote{automatic quotes}|.
 
 \paragraph{Small caps acronyms.}
-Acronyms in full caps are fine, but can be disturbing if they appear too frequently.
+
+Acronyms in full caps are usually fine, but can be disturbing if there are too many of them.
 One way to alleviate that is setting them like proper nouns, but that is only possible if the acronym is pronounced like a word, rather than spelled; periods are superfluous in either case.
 Otherwise, small caps are the solution.
 \marginnote{%
@@ -213,6 +224,7 @@ Note that in the code, you should write the acronym in lower case; |\caps| will 
 \end{comparing}
 
 \paragraph{Coordinate typefaces.}
+
 Many document classes mix text typefaces that were not designed together.
 You should of course pick typefaces with compatible aesthetic temperaments, but also ensure that they coordinate well visually.
 For instance, many well-known publication templates use Times together with Helvetica, but while both have the same point size, they do not \emph{look} like it.
@@ -224,6 +236,7 @@ Fortunately, \package{helvet} and a few other typeface packages can adjust the s
 
 
 \paragraph{Keep body text black.}
+
 To be readable, small text needs good contrast without texture noise.
 Unfortunately, the halftoning patterns of most black and white laser printers are not fine enough to produce comfortably readable body text; even very dark colors produce noticeably jagged edges.
 For documents that will be printed, I would thus advise keeping all body text pure black.
@@ -262,6 +275,7 @@ Below is how I set it up in this document; have a look at the documentation for 
     spacing
     rules, booktabs
     listings setup
+    pgf, beamer
 \end{todoenv}
 % (end)
 
@@ -273,6 +287,7 @@ Below is how I set it up in this document; have a look at the documentation for 
 \begin{todoenv}
     line length
     spacing
+    typographic tweaks, microtype, ragged2e
     proportions, your own document style
 \end{todoenv}
 % (end)
@@ -284,15 +299,77 @@ Below is how I set it up in this document; have a look at the documentation for 
 \section{Efficient tools} % (fold)
 \label{sec:tools}
 
+
+\subsection{Formats \& toolchain} % (fold)
+\label{toolchain}
+
+\paragraph{Portable Document Format.}
+
+Adobe's \caps{pdf} has several practical advantages over the other output formats.
+It has become the de-facto standard for replacing paper documents, and as such it's widely supported, both in terms of platforms and of uses.
+In contrast, \caps{dvi}, the historic output format of \TeX{} documents, is only ever useful in a \TeX-related context, and PostScript has been relegated to printers.
+
+\paragraph{Vector fonts.}
+
+Prefer vector fonts whenever possible; all the popular fonts available in \LaTeX{} have now been converted to vector formats and should be used by default anyway.
+One could argue that Metafont, \TeX's original approach to fonts, is the most powerful, but in practice it's not really worth the results.
+Metafont was designed to render bitmapped glyphs to best fit the current medium, but to be actually useful it requires impractical \TeX-specific tools, document viewers, and printer drivers; moreover, many modern document viewers do not support bitmap fonts too well, making them look fuzzy or blocky on screen.
+In contrast, vector fonts are resolution-independent, so they directly display nicely at any size, be it on screen or paper.
+
+\paragraph{PDF\TeX{} or Xe\TeX?}
+
+The original \command{tex} program was frozen by Don Knuth in 1989, and here are three main actively developed branches of the \TeX{} engine: \command{pdftex}, \command{xetex}, and \command{luatex}%
+\sidenote{%
+  …and of course their counterparts \command{latex}, \command{pdflatex}, \command{xelatex}, and \command{lualatex}.}.
+While they all progress in the same general direction, they have different status and goals:
+\begin{itemize}
+\item \command{pdftex} is the \emph{traditional} engine, derived from \thanh's work; besides outputting \caps{pdf} directly, it supports including \caps{jpeg} and \caps{png} images, and provides some enhancements to the typographic algorithms.
+
+\item \command{xelatex} is an interesting experimental fork with support for the platform's font technologies.
+It directly uses TrueType or OpenType fonts, with advanced features such as ligatures or stylistic variants, and without having to create all the files necessary to install them into your \TeX{} distribution.
+This comes at a price, however: the syntax for selecting fonts is different from standard \TeX{}.
+
+\item \command{luatex} is the next-generation engine, a major evolution, merger of ideas from many previous efforts like Omega; it embeds a Lua interpreter\sidenote{\url{http://www.lua.org}} so that core functionality can be written in Lua rather than \TeX{} macros.
+\end{itemize}
+
+This being said, \command{pdflatex} is the engine I recommend as your default choice over the original \command{latex}.
+To me, there is no reason to stick with the \caps{dvi}/Postscript pipeline
+unless you rely on Postscript-specific packages%
+\sidenote{%
+  \package{pstricks} comes to mind, but there is \package{pdftricks} as a work-around, or good equivalents that you should investigate, like \package{pgf}.}.
+Of course, it's possible to get \caps{pdf} out of \caps{dvi} via \command{dvipdfm} or \command{pstopdf}, but \command{pdflatex} makes this detour unnecessary and has a number of other advantages: it simplifies the graphics pipeline by supporting modern bitmap formats rather than only \caps{eps}, and extends the typographic possibilities with glyph expansion and protrusion.
+
+
 \subsection{Compiling \& previewing} % (fold)
 \label{sec:compiling}
 
+\paragraph{From source to document.}
+
+There has been many attemps at automating \LaTeX{} compilation via shell scripts or makefiles, but none%
+\sidenote{%
+  There is \href{https://launchpad.net/rubber/}{\command{rubber}}, which had nicer error reporting, but development seems stalled.}
+of them nearly as nice or robust as:
+\begin{commandcode}
+  _\prompt_ latexmk -pdf _\parameter{main document file}_
+\end{commandcode}
+
+This simple invocation should get you very far already; \command{latexmk} will take care of index and bibliography regeneration, etc. while paying attention to source file dependencies and trying to do only the necessary work.
+It's also open to customizations, so for instance I have it export graphics from OmniGraffle documents into \caps{pdf} files for inclusion; this way I can just edit my figures and forget about exporting them manually.
+
+\Todo{latexmk: alias, basic config, default file}
+
+\paragraph{The edit-compile-view cycle.}
+
+\Todo{latexmk build cycle, synctex}
+
+\paragraph{More automation.}
+
 \begin{todoenv}
-    latexmk + extensions
-    synctex
+    latexmk extensions
     spell-checking?
 \end{todoenv}
 % (end)
+
 
 \subsection{Learning \& debugging} % (fold)
 \label{sec:learning}
