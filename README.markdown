@@ -1,4 +1,8 @@
-# Compiling
+# What's this?
+
+A few pieces of advice for LaTeX users, to help them prepare documents with better typography, streamline their writing workflow, and write maintainable LaTeX code.
+
+### Compiling
 
 Just pass `main.tex` through the usual PDFLaTeX process, or adopt the lazy way:
 
