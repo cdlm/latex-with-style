@@ -4,7 +4,7 @@ Just pass `main.tex` through the usual PDFLaTeX process, or adopt the lazy way:
 
     latexmk -pdf main
 
-The document uses the [`tufte-latex` class][tufte-google], which is [bundled with the major TeX distributions][tufte-ctan]. You might want to check for an up-to-date verstion though, since I'm updating [TeXlive][] with obsessive-compulsive frequency :)
+The document uses the [`tufte-latex` class][tufte-google], which is [bundled with the major TeX distributions][tufte-ctan]. You might want to check for an up-to-date version though, since I'm updating [TeXlive][] with obsessive-compulsive frequency :)
 
 
 # Included packages
@@ -12,12 +12,12 @@ The document uses the [`tufte-latex` class][tufte-google], which is [bundled wit
 I'm trying to keep the reuseable parts of the setup code modularized out of the main file into proper packages. At one point, these might be maintained separately, but they will live here for a while.
 
 
-## LaTeX logo for the Lato font
+### LaTeX logo for the Lato font
 
 The LaTeX logo was not looking very nice when set in [Lato][] with the original definition; `lato-latex.sty` redefines `\TeX` and `\LaTeX` to better fit. The code was inspired by [`arsclassica.sty`][arsclassica].
 
 
-## Tweaks for to-do notes
+### Tweaks for to-do notes
 
 I use [`todonotes.sty`][todo] while writing and it needed a few tweaks to fit `tufte-latex`; this is in `todo-setup.sty`.
 
