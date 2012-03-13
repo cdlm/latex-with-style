@@ -1,14 +1,23 @@
 \documentclass[a4paper,twoside,nofonts]{tufte-handout}
 
 \usepackage[french,english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
 
-\usepackage[default,scale=.9]{lato}
-\usepackage{lato-latex}
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\usepackage{xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setmainfont[SmallCapsFont=* SC]{Alegreya}
+% \setmainfont[SmallCapsFont=* SC]{Mate}
+\setmonofont{Inconsolata}
+
+% \usepackage[default,scale=.9]{lato}
+% \usepackage{lato-latex}
+% \usepackage[default,osfigures]{opensans}
 % \usepackage{PTSerif,PTSans}
 % \renewcommand{\familydefault}{\sfdefault}
-\usepackage{inconsolata}
+% \usepackage{inconsolata}
 \usepackage{amsmath}
 \usepackage{ccicons}
 
@@ -95,7 +104,7 @@
 \newcommand{\thanh}{Hàn Thê\llap{\raise 0.4ex\hbox{\'{}}} Thành}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{\LaTeX'ing with style}
+\title{\\LaTeX'ing with style}
 \author{Damien Pollet}
 \date{}
 
